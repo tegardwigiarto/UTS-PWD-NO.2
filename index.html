@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNIVERSITAS INDRAPRASTA PGRI</title>
+  <style>
+    body {
+      background: yellow;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .logo {
+      width: 128px;
+      height: 128px;
+    }
+    .header-text h1 {
+      color: blue;
+      font-size: 24px;
+      margin: 5px 0;
+      text-align: center;
+    }
+    .alamat {
+      color: red;
+      font-size: 18px;
+      font-style: italic;
+      text-align: center;
+      margin-top: 10px;
+      border-bottom: 5px solid #000;
+    }
+    marquee {
+      display: inline-block;
+      width: 100%;
+    }
+    table {
+      width: 100%;
+      margin: 20px 0;
+      border:1px solid black;
+    }
+    td {
+      border: 1px solid #000;
+      padding: 8px;
+    }
+    td:first-child {
+      width: 100px;
+      font-weight: bold;
+    }
+    td:nth-child(2) {
+      width: 20px;
+      text-align: center;
+    }
+    input[type="text"] {
+      width: 95%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    input:focus {
+      outline: none;
+      border-color: blue;
+    }
+    h3 {
+      margin: 25px 0 10px;
+    }
+    .simpan-container {
+      text-align: center;
+      margin: 25px 0;
+    }
+    button {
+      padding: 10px 40px;
+      border: 1px solid #000000;
+      border-radius: 5px;
+      background: #000000;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:hover { background: #00ff1e; }
+    .reset-btn {
+      background: #000000;
+      color: #fff;
+      margin-left: 10px;
+    }
+    .reset-btn:hover { background: #cc0000; }
+    .success-message {
+      display: none;
+      background: #4CAF50;
+      color: #fff;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      text-align: center;
+      animation: fadeIn 0.5s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="logo/LogoUNINDRA.png" alt="Logo UNINDRA" class="logo">
+      <div class="header-text">
+        <h1>UNIVERSITAS INDRAPRASTA PGRI</h1>
+        <h1>(UNINDRA)</h1>
+      </div>
+    </div>
+
+    <div class="alamat">
+      <marquee behavior="alternate" scrollamount="14">Jl. Nangka No.58 Tanjung Barat-Jaksel</marquee>
+    </div>
+
+    <div id="successMessage" class="success-message">✓ Data berhasil disimpan!</div>
+
+    <table>
+      <tr>
+        <td>Nama</td><td>:</td>
+        <td><input type="text" id="nama" placeholder="Masukkan nama Anda"></td>
+      </tr>
+      <tr>
+        <td>NPM</td><td>:</td>
+        <td><input type="text" id="npm" placeholder="Masukkan NPM Anda"></td>
+      </tr>
+    </table>
+
+    <h3>FTIK:</h3>
+    <ol type="A">
+      <li>Informatika</li>
+      <li>Teknik Arsitektur</li>
+      <li>Teknik Industri</li>
+    </ol>
+
+    <div class="simpan-container">
+      <button onclick="simpanData()">SIMPAN</button>
+      <button class="reset-btn" onclick="resetData()">RESET</button>
+    </div>
+
+    <h3>MIPA:</h3>
+    <ol type="I">
+      <li>Matematika</li>
+      <li>Fisika</li>
+      <li>Biologi</li>
+    </ol>
+  </div>
+
+  <script>
+    window.onload = loadData;
+
+    function simpanData() {
+      const nama = document.getElementById('nama').value.trim();
+      const npm = document.getElementById('npm').value.trim();
+      if (!nama || !npm) return alert('Mohon isi Nama dan NPM terlebih dahulu!');
+      const data = { nama, npm, tanggal: new Date().toLocaleString('id-ID') };
+      localStorage.setItem('dataUnindra', JSON.stringify(data));
+      const msg = document.getElementById('successMessage');
+      msg.style.display = 'block';
+      setTimeout(() => msg.style.display = 'none', 3000);
+    }
+
+    function loadData() {
+      const saved = localStorage.getItem('dataUnindra');
+      if (saved) {
+        const d = JSON.parse(saved);
+        document.getElementById('nama').value = d.nama;
+        document.getElementById('npm').value = d.npm;
+      }
+    }
+
+    function resetData() {
+      if (confirm('Apakah Anda yakin ingin menghapus data yang tersimpan?')) {
+        localStorage.removeItem('dataUnindra');
+        document.getElementById('nama').value = '';
+        document.getElementById('npm').value = '';
+        alert('Data berhasil dihapus!');
+      }
+    }
+  </script>
+</body>
+</html>
